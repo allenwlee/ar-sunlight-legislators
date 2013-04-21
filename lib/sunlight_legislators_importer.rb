@@ -1,13 +1,11 @@
 require 'csv'
 
 class SunlightLegislatorsImporter
-  def self.import(filename)
+  def self.import(filename = File.dirname(__FILE__) + "/../db/data/legislators.csv")
     csv = CSV.new(File.open(filename), :headers => true)
     csv.each do |row|
       row.each do |field, value|
-        # TODO: begin
-        raise NotImplementedError, "TODO: figure out what to do with this row and do it!"
-        # TODO: end
+        Politician.create(field: value)
       end
     end
   end
@@ -21,3 +19,22 @@ rescue ArgumentError => e
 rescue NotImplementedError => e
   $stderr.puts "You shouldn't be running this until you've modified it with your implementation!"
 end
+
+#example
+# module StudentsImporter
+#   def self.import(filename=File.dirname(__FILE__) + "/../db/data/students.csv")
+#     field_names = nil
+#     Student.transaction do
+#       File.open(filename).each do |line|
+#         data = line.chomp.split(',')
+#         if field_names.nil?
+#           field_names = data
+#         else
+#           attribute_hash = Hash[field_names.zip(data)]
+#           student = Student.create!(attribute_hash)
+#         end
+#       end
+#     end
+#   end
+# end
+
