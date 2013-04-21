@@ -1,16 +1,18 @@
 require 'rake'
 require 'rspec/core/rake_task'
 require_relative 'db/config'
+require_relative 'db/data/sunlight_legislators_importer'
+
 
 
 desc "create the database"
 task "db:create" do
-  touch 'db/ar-sunglight-legislators.sqlite3'
+  touch 'db/ar-sunlight-legislators.sqlite3'
 end
 
 desc "drop the database"
 task "db:drop" do
-  rm_f 'db/ar-sunglight-legislators.sqlite3'
+  rm_f 'db/ar-sunlight-legislators.sqlite3'
 end
 
 desc "migrate the database (options: VERSION=x, VERBOSE=false, SCOPE=blog)."
@@ -24,7 +26,7 @@ end
 
 desc "populate the database"
 task "db:populate" do
-  
+  SunlightLegislatorsImporter.import("db/data/legislators.csv")
 end
 
 
